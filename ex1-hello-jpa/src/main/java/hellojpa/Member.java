@@ -1,4 +1,5 @@
 package hellojpa;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,6 +29,15 @@ public class Member {
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
 
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
+
     public Long getId() {
         return id;
     }
@@ -52,7 +62,7 @@ public class Member {
         this.team = team;
     }
 
-        public void changeTeam(Team team) {
+    public void changeTeam(Team team) {
         this.team = team;
         team.getMembers().add(this);
     }

@@ -7,7 +7,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 public class JpaMain {
-
+    //git 반영 test
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");//<persistence-unit name="hello">
 
@@ -41,9 +41,13 @@ public class JpaMain {
             team.setName("TeamA");
             em.persist(team); //pk값이 셋팅되고나서 영속상태가 됨
 
+            Locker locker =  new Locker();
+            locker.setName("락커넘버완");
+            em.persist(locker);
+
             Member member = new Member();
             member.setName("member1");
-
+            member.setLocker(locker);
             //meber table은 id, username, team_id 컬럼만 있는데
             //아래 team객체를 set, change 등의 메소드로 member객체에 넣어주면 
             //jpa가 알아서 team_id(외래키 값)을 뽑아서 insert할때 사용함
@@ -61,6 +65,7 @@ public class JpaMain {
             //멤버에서 팀을 조회 -> 팀에서 멤버를 조회가 가능
             List<Member> members = findMember.getTeam().getMembers();
 
+            System.out.println("=========================================================");
             for (Member m : members) {
                 System.out.println("m = " + m.getName());
             }
