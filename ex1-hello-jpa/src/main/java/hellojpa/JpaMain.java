@@ -37,7 +37,7 @@ public class JpaMain {
             findMember.setTeam(newTeam);
 */
 
-            Team team = new Team();
+/*            Team team = new Team();
             team.setName("TeamA");
             em.persist(team); //pk값이 셋팅되고나서 영속상태가 됨
 
@@ -68,7 +68,22 @@ public class JpaMain {
             System.out.println("=========================================================");
             for (Member m : members) {
                 System.out.println("m = " + m.getName());
-            }
+            }*/
+
+
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbbb");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
+
+            em.persist(movie);
+
+            em.flush();
+            em.clear();
+
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findeMovie = " + findMovie.getName());
 
             tx.commit();
 

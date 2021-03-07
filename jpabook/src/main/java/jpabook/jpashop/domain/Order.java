@@ -24,10 +24,14 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    private LocalDateTime orderDate;
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    private Delivery delivery;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    private LocalDateTime orderDate;
 
 
     public Member getMember() {
