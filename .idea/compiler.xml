@@ -13,11 +13,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ex1-hello-jpa (1)" />
-        <module name="ex1-hello-jpa" />
         <module name="jpashop" />
-        <module name="jpashop (1)" />
+        <module name="ex1-hello-jpa (1)" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ex1-hello-jpa" target="8" />
+      <module name="jpashop (1)" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
