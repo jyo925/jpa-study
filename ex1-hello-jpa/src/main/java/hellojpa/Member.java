@@ -21,7 +21,7 @@ public class Member extends BaseEntity{
 //    private Long teamId;
 
     //member입장이 N이고 team이 1이므로
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) //team을 프록시객체로 조회함 -> member클래스만 조회한다는 것
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 

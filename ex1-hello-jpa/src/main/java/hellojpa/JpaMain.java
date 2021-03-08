@@ -1,5 +1,7 @@
 package hellojpa;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -86,20 +88,67 @@ public class JpaMain {
             Movie findMovie = em.find(Movie.class, movie.getId());
             System.out.println("findeMovie = " + findMovie.getName());*/
 
+/*
+//            Member findMember = em.find(Member.class, 33L);
+            Member findMember = em.getReference(Member.class, 33L); //프록시 객체 조회
+            System.out.println(findMember.getClass());
+            System.out.println(findMember.getId());
+            System.out.println(findMember.getName()); //name등 실제 값을 호출할 때 그 때 프록시 객체가 영속성 컨텍스트에 초기화 요청함 -> 쿼리 나감*/
 
-            Member member = new Member();
-            member.setCreatedBy("kim");
-            member.setName("user1");
-            member.setCreatedDate(LocalDateTime.now());
 
-            em.persist(member);
+/*            Member m1 = em.find(Member.class, 33L);
+            System.out.println(m1.getClass());
+
+            Member reference = em.getReference(Member.class, 33L); //영속성에 엔티티가 이미 있으면 프록시객체가 아닌 실제 엔티티 반환
+            System.out.println(reference.getClass());
+            
+            //JPA에서는 한 트랜잭션 안에서는 동일 객체를 보장한다는 특징
+            //프록시로 반환해봐야 이점이 없으므로 reference도 실제 엔티티를 얻게됨
+            System.out.println("a == a : " + (m1 == reference));*/
+
+/*            Member reference1 = em.getReference(Member.class, 33L);
+            Member reference2 = em.getReference(Member.class, 33L);
+            System.out.println("a == a : " + (reference2 == reference1)); //true*/
+
+
+/*            //순서를 뒤집어서
+            Member refMember = em.getReference(Member.class, 33L);
+            System.out.println("refMember = " + refMember.getClass()); //Proxy
+
+            Member findMember = em.find(Member.class, 33L); //Proxy를 가져옴 (JPA가 동일 객체를 보장하려고하기 때문임...) 실제 조회 쿼리가 나감 but 프록시가 담김
+            System.out.println("findMember = " + findMember.getClass());
+            System.out.println("findMember = " + findMember.getName());
+
+            System.out.println("a == a : " + (findMember == refMember)); //true
+
+//            em.detach(refMember);    // or em.close() -> 관리 X
+////            System.out.println(refMember.getName()); //비영속 상태에서 초기화는 불가능(에러)
+                // -> 근데 위에 findMember를 주석 해제하면 에러가 안남(똑같이 프록시가 담기는데...??)*/
+
+/*            Member refMember = em.getReference(Member.class, 33L);
+            System.out.println("refMember = " + refMember.getClass());
+            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); //초기화 여부
+
+            Hibernate.initialize(refMember);*/
+
+            Member member = em.find(Member.class, 33L);
+
+            Team team = new Team();
+            team.setName("teamC");
+            em.persist(team);
+            member.setTeam(team);
+
             em.flush();
             em.clear();
+
+            System.out.println("member = " + em.find(Member.class, 33L).getTeam().getClass());
+
 
             tx.commit();
 
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
