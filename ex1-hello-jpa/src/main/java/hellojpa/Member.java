@@ -21,11 +21,12 @@ public class Member extends BaseEntity{
 //    private Long teamId;
 
     //member입장이 N이고 team이 1이므로
-    @ManyToOne(fetch = FetchType.LAZY) //team을 프록시객체로 조회함 -> member클래스만 조회한다는 것
+    @ManyToOne(fetch = FetchType.LAZY) //지연로딩: team을 프록시객체로 조회함 -> member클래스만 조회한다는 것
+//    @ManyToOne(fetch = FetchType.EAGER) //즉시로딩: 실제 엔티티를 조회함
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
 

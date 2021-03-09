@@ -131,8 +131,7 @@ public class JpaMain {
 
             Hibernate.initialize(refMember);*/
 
-            Member member = em.find(Member.class, 33L);
-
+/*            Member member = em.find(Member.class, 33L);
             Team team = new Team();
             team.setName("teamC");
             em.persist(team);
@@ -140,8 +139,49 @@ public class JpaMain {
 
             em.flush();
             em.clear();
+*/
 
-            System.out.println("member = " + em.find(Member.class, 33L).getTeam().getClass());
+/*             Member member1 = em.find(Member.class, 33L);
+           System.out.println("member = " + member1.getTeam().getClass());//지연로딩을 걸었기 때문에 Proxy team 반환됨
+
+            System.out.println("실제 사용 시점에 초기화(객체 조회 쿼리 나감)");
+            member1.getTeam().getName(); //초기화
+
+            //즉시로딩 Eager
+            System.out.println("member1.getTeam().getClass() = " + member1.getTeam().getClass());*/
+
+/*
+            //JPQL에서 N+1 문제 발생
+            List<Member> results = em.createQuery("select m from Member m", Member.class).getResultList();
+            //쿼리가 두번 나가게 됨, 즉시로딩 걸어둔 객체는 값이 무조건 들어가야 하기 때문
+            //SQL: select * from member(1)
+            //SQL: select * from team where team_id = xxx ---> 이때 team 조회 쿼리는 member 수 만큼 나감(N)
+
+            //지연로딩이여도 한번에 불러오려면 fetch join 사용
+            List<Member> results2 = em.createQuery("select m from Member m join fetch m.team join fetch m.locker", Member.class).getResultList();
+*/
+
+/*            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+//            em.persist(parent);
+//            em.persist(child1);
+//            em.persist(child2);
+            //persist를 여러번 하지 않고 한번에 저장하는 방법 -> cascade사용
+            //parent와 연관된 child도 같이 저장
+            em.persist(parent);*/
+
+            /*//orphanRemoval = true -> delete from child where id = ?
+            Parent parent = em.find(Parent.class, 65L);
+            parent.getChildList().remove(0);
+*/
+
+            em.remove(em.find(Parent.class, 65L));
+            //child 생명주기를 parent가 관리한다고 볼 수 있음 -> child는 DAO, Repository 등이 없어도 되는 것....
 
 
             tx.commit();
