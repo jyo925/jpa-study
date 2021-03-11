@@ -180,10 +180,51 @@ public class JpaMain {
             parent.getChildList().remove(0);
 */
 
-            em.remove(em.find(Parent.class, 65L));
+          /*  em.remove(em.find(Parent.class, 65L));
             //child 생명주기를 parent가 관리한다고 볼 수 있음 -> child는 DAO, Repository 등이 없어도 되는 것....
+*/
+            
+ /*           Member member = new Member();
+            member.setName("member1");
+            member.setHomeAddress(new Address("homeCity1", "street1", "10000"));
 
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
 
+            member.getAddressesHistory().add(new Address("old1", "street", "10000"));
+            member.getAddressesHistory().add(new Address("old2", "street", "10000"));
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            //member만 가져옴(멤커에 소속된 임베디드 값타입은 같이 불러옴)
+            //값타입 컬렉션은 지연 로딩임
+            System.out.println("===============START=========================");
+            Member member1 = em.find(Member.class, member.getId());
+
+            //homeCity -> newCity로 변경하려면?
+//            member1.getHomeAddress().setCity("newCity");  ---> X 값타입은 사이드 이팩트 발생할 수 있음
+
+            Address a = member1.getHomeAddress();
+            member1.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode())); //아예 새로운 인스턴스로 넣어줘야함
+
+            member1.getFavoriteFoods().remove("치킨");
+            member1.getFavoriteFoods().add("한식");*/
+
+/*
+            Member member1 = em.find(Member.class, 99L);
+            member1.getAddressesHistory().remove(new Address("old1", "street", "10000"));
+            member1.getAddressesHistory().add(new Address("new1", "street", "10000"));
+*/
+
+            Member member1 = em.find(Member.class, 99L);
+            member1.getAddressesHistory().add(new AddressEntity("old4", "street", "10000"));
+            member1.getAddressesHistory().add(new AddressEntity("old2", "street", "10000"));
+            member1.getAddressesHistory().add(new AddressEntity("old3", "street", "10000"));
+            
             tx.commit();
 
         } catch (Exception e) {
